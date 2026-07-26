@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Web Developer Workflow | From Learning to Clients</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --dark: #0f172a;
+            --text: #334155;
+            --muted: #64748b;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --green: #16a34a;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 70px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .navbar a {
+            text-decoration: none;
+        }
+
+        .nav-btn {
+            background: var(--primary);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 480px;
+            padding: 80px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background:
+                radial-gradient(circle at top, #dbeafe, transparent 55%),
+                var(--bg);
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: var(--primary-dark);
+            padding: 7px 14px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 7vw, 70px);
+            line-height: 1.1;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--muted);
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            padding: 14px 25px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 9px;
+            font-weight: 600;
+        }
+
+        /* SECTION */
+
+        .section {
+            padding: 80px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+
+        .section-heading h2 {
+            color: var(--dark);
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+        }
+
+        /* WORKFLOW */
+
+        .workflow {
+            position: relative;
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .workflow::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--border);
+            transform: translateX(-50%);
+        }
+
+        .step {
+            width: 50%;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .step:nth-child(odd) {
+            padding-right: 55px;
+            text-align: right;
+        }
+
+        .step:nth-child(even) {
+            margin-left: 50%;
+            padding-left: 55px;
+        }
+
+        .number {
+            position: absolute;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            top: 25px;
+            z-index: 5;
+            border: 5px solid var(--bg);
+        }
+
+        .step:nth-child(odd) .number {
+            right: -21px;
+        }
+
+        .step:nth-child(even) .number {
+            left: -21px;
+        }
+
+        .step-card {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 14px;
+            transition: 0.25s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+            border-color: #bfdbfe;
+        }
+
+        .icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .step-card h3 {
+            color: var(--dark);
+            margin-bottom: 7px;
+            font-size: 20px;
+        }
+
+        .step-card p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        /* CLIENT FLOW */
+
+        .client-section {
+            background: var(--dark);
+            color: white;
+        }
+
+        .client-section .section-heading h2 {
+            color: white;
+        }
+
+        .client-section .section-heading p {
+            color: #cbd5e1;
+        }
+
+        .client-flow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .client-item {
+            padding: 13px 18px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .arrow {
+            color: #60a5fa;
+            font-size: 20px;
+        }
+
+        /* GOLDEN RULES */
+
+        .rules {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .rule {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+        }
+
+        .rule span {
+            font-size: 30px;
+        }
+
+        .rule h3 {
+            color: var(--dark);
+            margin: 12px 0 8px;
+        }
+
+        .rule p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        /* CTA */
+
+        .cta {
+            text-align: center;
+            padding: 80px 20px;
+            background: #eff6ff;
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            color: var(--muted);
+            margin-bottom: 25px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: var(--dark);
+            color: #94a3b8;
+            padding: 25px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 768px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .hero {
+                padding: 60px 20px;
+            }
+
+            .workflow::before {
+                left: 20px;
+            }
+
+            .step,
+            .step:nth-child(even) {
+                width: 100%;
+                margin-left: 0;
+                padding-left: 65px;
+                padding-right: 0;
+                text-align: left;
+            }
+
+            .step:nth-child(odd) .number,
+            .step:nth-child(even) .number {
+                left: 0;
+                right: auto;
+            }
+
+            .rules {
+                grid-template-columns: 1fr;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+
+            .client-flow {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+        <a href="#" class="logo">Web<span>Dev</span> Roadmap</a>
+
+        <a href="#workflow" class="nav-btn">
+            View Roadmap
+        </a>
+    </nav>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <span class="badge">
+                🚀 Web Developer Career Roadmap
+            </span>
+
+            <h1>
+                Learn. Build. Find Clients.
+                <span>Get Paid.</span>
+            </h1>
+
+            <p>
+                A practical workflow for becoming a web developer,
+                creating real projects, finding businesses and turning
+                your development skills into paid client work.
+            </p>
+
+            <a href="#workflow" class="hero-btn">
+                Start the Roadmap ↓
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- WORKFLOW -->
+
+    <section class="section" id="workflow">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <h2>Web Developer Workflow</h2>
+
+                <p>
+                    Follow these steps from learning development
+                    to delivering your first client website.
+                </p>
+
+            </div>
+
+
+            <div class="workflow">
+
+                <!-- STEP 1 -->
+
+                <div class="step">
+
+                    <div class="number">1</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">💻</div>
+
+                        <h3>Learn Web Development</h3>
+
+                        <p>
+                            Start with HTML, CSS and JavaScript.
+                            Learn responsive design, Git and basic
+                            web development fundamentals.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 2 -->
+
+                <div class="step">
+
+                    <div class="number">2</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">🛠️</div>
+
+                        <h3>Build Real Projects</h3>
+
+                        <p>
+                            Create business websites, portfolios,
+                            landing pages, e-commerce demos and
+                            useful web applications.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 3 -->
+
+                <div class="step">
+
+                    <div class="number">3</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">🌐</div>
+
+                        <h3>Create Your Portfolio</h3>
+
+                        <p>
+                            Build a professional portfolio showing
+                            your projects, skills, services and
+                            contact information.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 4 -->
+
+                <div class="step">
+
+                    <div class="number">4</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">☁️</div>
+
+                        <h3>Deploy Your Projects</h3>
+
+                        <p>
+                            Put your websites online so potential
+                            clients can view working demos instead
+                            of only screenshots.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 5 -->
+
+                <div class="step">
+
+                    <div class="number">5</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">🔍</div>
+
+                        <h3>Find Businesses</h3>
+
+                        <p>
+                            Look for businesses that have no website
+                            or an outdated website and could benefit
+                            from a stronger online presence.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 6 -->
+
+                <div class="step">
+
+                    <div class="number">6</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">🎨</div>
+
+                        <h3>Create a Demo</h3>
+
+                        <p>
+                            Create a small demo showing what the
+                            business website could look like.
+                            Keep demo content clearly labelled.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 7 -->
+
+                <div class="step">
+
+                    <div class="number">7</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">📩</div>
+
+                        <h3>Contact the Business</h3>
+
+                        <p>
+                            Introduce yourself professionally and
+                            share the live demo so the owner can
+                            experience the website.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 8 -->
+
+                <div class="step">
+
+                    <div class="number">8</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">🤝</div>
+
+                        <h3>Agree Scope & Price</h3>
+
+                        <p>
+                            Clearly define pages, features, revisions,
+                            domain, hosting, maintenance, timeline
+                            and total project price.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 9 -->
+
+                <div class="step">
+
+                    <div class="number">9</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">💳</div>
+
+                        <h3>Take an Advance</h3>
+
+                        <p>
+                            Once the project is agreed, take an
+                            advance before beginning the full
+                            client-specific customisation.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 10 -->
+
+                <div class="step">
+
+                    <div class="number">10</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">⚙️</div>
+
+                        <h3>Build & Customise</h3>
+
+                        <p>
+                            Add the client's actual branding,
+                            content, images, contact information
+                            and agreed functionality.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 11 -->
+
+                <div class="step">
+
+                    <div class="number">11</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">🧪</div>
+
+                        <h3>Test Everything</h3>
+
+                        <p>
+                            Test mobile responsiveness, links,
+                            forms, WhatsApp, calls, performance,
+                            SEO and browser compatibility.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 12 -->
+
+                <div class="step">
+
+                    <div class="number">12</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">🚀</div>
+
+                        <h3>Deploy & Deliver</h3>
+
+                        <p>
+                            Get final approval, collect the remaining
+                            payment and deploy the production website
+                            with the agreed domain and hosting.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 13 -->
+
+                <div class="step">
+
+                    <div class="number">13</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">⭐</div>
+
+                        <h3>Get a Testimonial</h3>
+
+                        <p>
+                            After successful delivery, ask the client
+                            for a genuine testimonial and permission
+                            to showcase the project.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 14 -->
+
+                <div class="step">
+
+                    <div class="number">14</div>
+
+                    <div class="step-card">
+
+                        <div class="icon">🔄</div>
+
+                        <h3>Repeat & Grow</h3>
+
+                        <p>
+                            Add the project to your portfolio,
+                            find your next client and gradually
+                            increase your pricing and services.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CLIENT FLOW -->
+
+    <section class="section client-section">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <h2>Simple Client Workflow</h2>
+
+                <p>
+                    The process you can follow for every business client.
+                </p>
+
+            </div>
+
+            <div class="client-flow">
+
+                <div class="client-item">🔍 Find Business</div>
+
+                <div class="arrow">→</div>
+
+                <div class="client-item">🎨 Demo</div>
+
+                <div class="arrow">→</div>
+
+                <div class="client-item">📩 Contact</div>
+
+                <div class="arrow">→</div>
+
+                <div class="client-item">🤝 Deal</div>
+
+                <div class="arrow">→</div>
+
+                <div class="client-item">💳 Advance</div>
+
+                <div class="arrow">→</div>
+
+                <div class="client-item">💻 Build</div>
+
+                <div class="arrow">→</div>
+
+                <div class="client-item">✅ Approval</div>
+
+                <div class="arrow">→</div>
+
+                <div class="client-item">🚀 Deploy</div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RULES -->
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <h2>Important Rules</h2>
+
+                <p>
+                    Protect your time and keep client work professional.
+                </p>
+
+            </div>
+
+
+            <div class="rules">
+
+                <div class="rule">
+
+                    <span>👀</span>
+
+                    <h3>Demo ≠ Delivery</h3>
+
+                    <p>
+                        A free demo is for showing your concept.
+                        The complete customised website is the
+                        paid product.
+                    </p>
+
+                </div>
+
+
+                <div class="rule">
+
+                    <span>💰</span>
+
+                    <h3>Agree Before Building</h3>
+
+                    <p>
+                        Define the price, scope, revisions and
+                        payment terms before doing substantial
+                        client-specific work.
+                    </p>
+
+                </div>
+
+
+                <div class="rule">
+
+                    <span>📦</span>
+
+                    <h3>Professional Handover</h3>
+
+                    <p>
+                        After payment and approval, deliver the
+                        agreed website, accounts, documentation
+                        and access.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <section class="cta">
+
+        <h2>Start Building Your Career 🚀</h2>
+
+        <p>
+            Build projects. Show your work. Solve real business problems.
+        </p>
+
+        <a href="#workflow" class="hero-btn">
+            View Workflow Again
+        </a>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Web Developer Roadmap • Learn • Build • Grow
+        </p>
+
+    </footer>
+
+
+    <script>
+        const links = document.querySelectorAll('a[href^="#"]');
+
+        links.forEach(link => {
+
+            link.addEventListener("click", function(event) {
+
+                const target = document.querySelector(
+                    this.getAttribute("href")
+                );
+
+                if (target) {
+                    event.preventDefault();
+
+                    target.scrollIntoView({
+                        behavior: "smooth"
+                    });
+                }
+
+            });
+
+        });
+    </script>
+
+</body>
+</html>
